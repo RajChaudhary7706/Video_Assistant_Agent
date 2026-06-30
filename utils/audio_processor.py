@@ -63,9 +63,6 @@ def chunk_audio(wav_path: str, chunk_minutes: int = 10) -> list[str]:
 
     chunk_ms = chunk_minutes * 60 * 1000
 
-    print(f"Audio Length : {len(audio)} milliseconds")
-    print(f"Chunk Size   : {chunk_minutes} minutes")
-
     chunks = []
 
     base_name = os.path.splitext(wav_path)[0]
@@ -81,8 +78,6 @@ def chunk_audio(wav_path: str, chunk_minutes: int = 10) -> list[str]:
 
         chunks.append(chunk_filename)
 
-        print(f"Created: {chunk_filename}")
-
     return chunks
 
 
@@ -92,15 +87,22 @@ if __name__ == "__main__":
 
     # Step 1: Download
     downloaded_file = download_youtube_audio(url)
-    print("Downloaded:", downloaded_file)
 
     # Step 2: Convert
     converted_file = convert_to_wav(downloaded_file)
-    print("Converted:", converted_file)
 
     # Step 3: Split into chunks
     chunks = chunk_audio(converted_file, chunk_minutes=10)
 
-    print("\nChunks Created:")
-    for chunk in chunks:
-        print(chunk)
+def process_input(source:str)->list:
+    if source.startswith("http://") or source.startwith("https://"):
+        print("Detected YouTube URL. Downloading audio...")
+        wav_path=convert_to_wav(source)
+    else:
+        print("Detected local file. Converting to WAV...")
+        wav_path=convert_to_wav(source)
+        
+    print("Chunking audio...")
+    chunks = chunk_audio(wav_path)
+    print(f"Audio ready - {len(chunks)} chunk(s) created.")
+    return chunks
