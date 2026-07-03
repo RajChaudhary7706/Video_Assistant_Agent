@@ -1,3 +1,8 @@
+#Here we use whisper key for transcription and translation of 
+# audio files. We define functions to load the model, transcribe
+# a single chunk, and transcribe all chunks. The model is loaded
+# only once for efficiency.
+
 import whisper
 import os
 

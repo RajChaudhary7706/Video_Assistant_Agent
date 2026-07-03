@@ -1,3 +1,4 @@
+#here we define the functions to download, convert, and chunk audio files(MISTRAL_KEY")
 import os
 import yt_dlp
 from pydub import AudioSegment
@@ -81,23 +82,24 @@ def chunk_audio(wav_path: str, chunk_minutes: int = 10) -> list[str]:
     return chunks
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    url = "https://youtu.be/k5jYwyhDMxA?si=zwCaYPKKqrEjIrWk"
+#     url = "https://youtu.be/k5jYwyhDMxA?si=zwCaYPKKqrEjIrWk"
 
-    # Step 1: Download
-    downloaded_file = download_youtube_audio(url)
+#     # Step 1: Download
+#     downloaded_file = download_youtube_audio(url)
 
-    # Step 2: Convert
-    converted_file = convert_to_wav(downloaded_file)
+#     # Step 2: Convert
+#     converted_file = convert_to_wav(downloaded_file)
 
-    # Step 3: Split into chunks
-    chunks = chunk_audio(converted_file, chunk_minutes=10)
+#     # Step 3: Split into chunks
+#     chunks = chunk_audio(converted_file, chunk_minutes=10)
 
 def process_input(source:str)->list:
-    if source.startswith("http://") or source.startwith("https://"):
+    if source.startswith("http://") or source.startswith("https://"):
         print("Detected YouTube URL. Downloading audio...")
-        wav_path=convert_to_wav(source)
+        download_file = download_youtube_audio(source)
+        wav_path=convert_to_wav(download_file)
     else:
         print("Detected local file. Converting to WAV...")
         wav_path=convert_to_wav(source)
